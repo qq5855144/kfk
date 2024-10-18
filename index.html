@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <title>资源页面</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            word-wrap: break-word;
+        }
+        body {
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0;
+            font-family: 'Microsoft Yahei', Arial, sans-serif;
+            color: #333;
+            background: linear-gradient(to bottom right, #3cd3ad, #4cb8c4);
+        }
+        .container {
+            max-width: 320px; 
+            padding: 20px; 
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 25px; 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); 
+            text-align: center;
+        }
+        .header img {
+            border-radius: 50%;
+            width: 100px; 
+            height: 100px; 
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+            object-fit: cover; 
+        }
+        .header h2 {
+            font-size: 22px; 
+            color: #2980b9; 
+            margin: 6px 0; 
+        }
+        .tips {
+            margin: 10px 0; 
+            color: #e74c3c; 
+            font-size: 14px; 
+        }
+        .links {
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 10px; 
+        }
+        .links a {
+            flex: 1; 
+            padding: 10px; 
+            background: linear-gradient(to right, #3498db, #2ecc71); 
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background 0.3s, transform 0.2s;
+            margin: 0 5px; 
+        }
+        .links a:hover {
+            background: linear-gradient(to right, #2ecc71, #3498db);
+            transform: translateY(-2px);
+        }
+        @media screen and (max-width: 400px) {
+            .header img {
+                width: 80px; 
+                height: 80px; 
+            }
+            .header h2 {
+                font-size: 20px; 
+            }
+            .links a {
+                font-size: 12px; 
+                padding: 8px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="76px" height="75px" viewBox="0 0 76 75">
+                <circle cx="50" cy="50" r="50" fill="#2980b9" />
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-size="20"></text>
+            </svg>
+            <h2>欢迎来到我的资源页面</h2>
+        </div>
+        <div class="tips">
+            <h2>免责声明</h2>
+            <p>该资源仅供学习和交流使用，请遵循相关法律法规。</p>
+        </div>
+        <div class="links">
+            <a href="https://modules.lsposed.org/" target="_blank">Lsp仓库</a>
+            <a href="https://gitlink.org.cn/damengzhu/XBrowser-User-Scripts/tree/master/X浏览器脚本整理.md" target="_blank">脚本合集</a>
+            <a href="https://link3.cc/cbkey" target="_blank">更多资源</a>
+        </div>
+    </div>
+</body>
+</html>
