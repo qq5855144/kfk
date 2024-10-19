@@ -225,13 +225,10 @@
         const imgSrc = document.getElementById('appImg').value;
 
         if (name && url && imgSrc) {
-            const container = document.getElementById('iconContainer');
-            const newIcon = document.createElement('div');
-            newIcon.className = 'icon';
-            newIcon.onclick = () => window.open(url, '_blank');
-            newIcon.innerHTML = `<img src="${imgSrc}" alt="${name}"><div class="icon-label">${name}</div>`;
-            container.insertBefore(newIcon, container.lastChild);
-            
+            const newIcon = { name, url, imgSrc };
+            saveIconToLocalStorage(newIcon);
+            renderIcon(newIcon);
+
             document.getElementById('appName').value = '';
             document.getElementById('appUrl').value = '';
             document.getElementById('appImg').value = '';
@@ -239,6 +236,31 @@
         } else {
             alert("请填写所有字段！");
         }
+    }
+
+    function saveIconToLocalStorage(icon) {
+        const icons = getIconsFromLocalStorage();
+        icons.push(icon);
+        localStorage.setItem('icons', JSON.stringify(icons));
+    }
+
+    function getIconsFromLocalStorage() {
+        const icons = localStorage.getItem('icons');
+        return icons ? JSON.parse(icons) : [];
+    }
+
+    function renderIcons() {
+        const icons = getIconsFromLocalStorage();
+        icons.forEach(renderIcon);
+    }
+
+    function renderIcon(icon) {
+        const container = document.getElementById('iconContainer');
+        const newIcon = document.createElement('div');
+        newIcon.className = 'icon';
+        newIcon.onclick = () => window.open(icon.url, '_blank');
+        newIcon.innerHTML = `<img src="${icon.imgSrc}" alt="${icon.name}"><div class="icon-label">${icon.name}</div>`;
+        container.insertBefore(newIcon, container.lastChild);
     }
 
     function setSearchEngine(engine) {
@@ -267,6 +289,8 @@
         };
         window.open(urls[searchEngine], '_blank');
     }
+
+    window.onload = renderIcons;
 </script>
 
 </body>
