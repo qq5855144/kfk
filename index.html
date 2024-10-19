@@ -14,25 +14,30 @@
         .header {
             height: 40px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
             align-items: center;
-            background-color: #3498db;
+            background-color: #ffffff; 
             padding: 0 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: top 0.3s;
+            position: fixed;
+            top: -40px; 
+            width: 100%;
         }
+
         .header button {
-            background-color: #ffffff;
+            background: linear-gradient(135deg, #3498db, #2ecc71); 
             border: none;
             border-radius: 20px;
             padding: 5px 15px;
-            color: #3498db;
+            color: #ffffff; 
             cursor: pointer;
             font-size: 14px;
             margin-left: 10px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s; 
         }
         .header button:hover {
-            background-color: #e0e0e0;
+            background: linear-gradient(135deg, #2ecc71, #3498db); 
         }
         .container {
             display: grid;
@@ -41,6 +46,7 @@
             padding: 18px;
             max-width: 1200px;
             margin: auto;
+            margin-top: 60px;
         }
         .icon {
             background-color: transparent;
@@ -160,7 +166,7 @@
         }
         .modal-content button {
             padding: 8px 10px;
-            background-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2ecc71); 
             color: white;
             border: none;
             border-radius: 20px;
@@ -169,13 +175,32 @@
             margin: 2px 0;
         }
         .modal-content button:hover {
-            background-color: #2980b9;
+            background: linear-gradient(135deg, #2ecc71, #3498db); 
+        }
+        .toggle-button {
+            position: fixed;
+            top: 10px; 
+            right: 20px;
+            background-color: transparent; 
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .toggle-button:hover {
+            background-color: rgba(0, 0, 0, 0.1); 
+        }
+        .toggle-icon {
+            width: 24px; 
+            height: 24px; 
         }
     </style>
 </head>
 <body>
 
-<div class="header">
+<div class="header" id="header">
     <button onclick="showDeleteIconModal()">删除书签</button>
     <button onclick="showCreateAppModal()">添加书签</button>
 </div>
@@ -252,6 +277,31 @@
     </div>
 </div>
 
+<button class="toggle-button" id="toggleButton" onclick="toggleHeader()">
+    <span id="toggleIcon" class="toggle-icon green-clover">
+        <!-- 绿色幸运草 SVG -->
+        <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+        width="24" height="24" viewBox="0 0 96 96" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#2ecc71; stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#3498db; stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(0.000000,96.000000) scale(0.100000,-0.100000)" fill="url(#grad1)" stroke="none">
+            <path d="M397 710 c-130 -33 -234 -131 -274 -257 -15 -47 -15 -56 -3 -63 18
+            -11 40 6 40 29 0 35 53 122 101 165 134 120 322 115 450 -13 50 -50 72 -90 95
+            -168 2 -7 13 -13 25 -13 19 0 21 4 15 32 -31 156 -180 283 -343 293 -37 2 -85
+            0 -106 -5z"/>
+            <path d="M445 570 c-43 -9 -70 -26 -94 -56 -97 -123 11 -298 167 -269 54 10
+            118 80 127 138 7 46 -11 105 -43 140 -35 39 -103 60 -157 47z m117 -78 c56
+            -55 45 -153 -22 -187 -90 -46 -190 20 -177 118 5 40 37 82 72 98 36 16 96 3
+            127 -29z"/>
+          </g>
+        </svg>
+    </span>
+</button>
+
 <script>
     let searchEngine = 'yandex';
 
@@ -269,6 +319,65 @@
 
     function closeDeleteModal() {
         document.getElementById('deleteIconModal').style.display = 'none';
+    }
+
+    function toggleHeader() {
+        const header = document.getElementById('header');
+        const toggleIcon = document.getElementById('toggleIcon');
+
+        if (header.style.top === "0px") {
+            header.style.top = "-40px"; // 隐藏菜单
+            toggleIcon.innerHTML = `<!-- 黄色幸运草 SVG -->` + `
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" viewBox="0 0 96 96" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#2ecc71;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#3498db;stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                  <g transform="translate(0.000000,96.000000) scale(0.100000,-0.100000)"
+                  fill="url(#grad2)" stroke="none">
+                  <path d="M182 778 l-22 -22 47 -48 46 -47 -33 -37 c-18 -21 -48 -62 -67 -91
+                  l-34 -53 34 -52 c48 -75 119 -141 190 -179 55 -29 71 -33 137 -33 56 0 88 6
+                  124 22 l50 23 51 -51 51 -50 23 24 24 25 -296 296 c-162 162 -297 295 -299
+                  295 -2 0 -14 -10 -26 -22z m156 -201 c29 -30 32 -37 27 -78 -11 -82 60 -148
+                  141 -133 30 5 40 2 65 -22 16 -15 29 -31 29 -35 0 -15 -69 -34 -125 -33 -96 0
+                  -188 60 -264 172 -22 31 -22 34 -6 58 22 34 86 104 94 104 4 0 21 -15 39 -33z
+                  m142 -165 c-29 -5 -70 35 -70 67 0 24 2 23 46 -19 41 -41 43 -45 24 -48z"/>
+                  <path d="M391 739 l-33 -10 21 -23 c20 -21 29 -23 85 -19 49 4 72 1 109 -15
+                  52 -23 146 -107 178 -159 l21 -33 -35 -49 c-35 -48 -35 -49 -16 -67 18 -17 20
+                  -16 43 5 13 12 35 44 50 70 l26 48 -38 59 c-46 71 -125 144 -190 175 -53 26
+                  -164 35 -221 18z"/>
+                  <path d="M540 545 c30 -31 56 -51 58 -46 6 19 -29 71 -58 86 -54 28 -54 15 0
+                  -40z"/>
+                  </g>
+                </svg>
+            `; 
+        } else {
+            header.style.top = "0"; 
+            toggleIcon.innerHTML = `<!-- 绿色幸运草 SVG -->` + `
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                width="24" height="24" viewBox="0 0 96 96" preserveAspectRatio="xMidYMid meet">
+                  <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style="stop-color:#2ecc71; stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#3498db; stop-opacity:1" />
+                    </linearGradient>
+                  </defs>
+                  <g transform="translate(0.000000,96.000000) scale(0.100000,-0.100000)" fill="url(#grad1)" stroke="none">
+                    <path d="M397 710 c-130 -33 -234 -131 -274 -257 -15 -47 -15 -56 -3 -63 18
+                    -11 40 6 40 29 0 35 53 122 101 165 134 120 322 115 450 -13 50 -50 72 -90 95
+                    -168 2 -7 13 -13 25 -13 19 0 21 4 15 32 -31 156 -180 283 -343 293 -37 2 -85
+                    0 -106 -5z"/>
+                    <path d="M445 570 c-43 -9 -70 -26 -94 -56 -97 -123 11 -298 167 -269 54 10
+                    118 80 127 138 7 46 -11 105 -43 140 -35 39 -103 60 -157 47z m117 -78 c56
+                    -55 45 -153 -22 -187 -90 -46 -190 20 -177 118 5 40 37 82 72 98 36 16 96 3
+                    127 -29z"/>
+                  </g>
+                </svg>
+            `;
+        }
     }
 
     function addNewAppIcon() {
@@ -321,15 +430,10 @@
         const icons = getIconsFromLocalStorage();
         const filteredIcons = icons.filter(icon => icon.name !== nameToDelete);
 
-        if (filteredIcons.length < icons.length) {
-            localStorage.setItem('icons', JSON.stringify(filteredIcons));
-            document.getElementById('deleteAppName').value = '';
-            closeDeleteModal();
-            refreshIcons();
-            alert("图标已删除。");
-        } else {
-            alert("未找到匹配的应用名称。");
-        }
+        localStorage.setItem('icons', JSON.stringify(filteredIcons));
+        document.getElementById('deleteAppName').value = '';
+        closeDeleteModal();
+        refreshIcons();
     }
 
     function refreshIcons() {
