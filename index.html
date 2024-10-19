@@ -11,6 +11,29 @@
             margin: 0;
             padding: 0;
         }
+        .header {
+            height: 40px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #3498db;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header button {
+            background-color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 15px;
+            color: #3498db;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+        .header button:hover {
+            background-color: #e0e0e0;
+        }
         .container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -84,14 +107,17 @@
             cursor: pointer;
             color: white;
             font-size: 14px;
-            transition: background-color 0.3s, transform 0.2s;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
         .engine-button:hover {
             background: linear-gradient(135deg, #2ecc71, #3498db);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
         .engine-button.selected {
             background: linear-gradient(135deg, #ffe000, #799f0c);
             transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
         .modal {
             display: none;
@@ -106,21 +132,21 @@
         }
         .modal-content {
             background-color: white;
-            padding: 20px;
+            padding: 10px;
             border-radius: 25px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 280px;
-            height: 280px;
+            width: 250px;
+            height: auto;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
         .modal-content input {
             width: calc(100% - 20px);
-            padding: 10px;
+            padding: 8px;
             margin: 5px 0;
             border: 1px solid #ccc;
-            border-radius: 25px;
+            border-radius: 20px;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
             transition: border 0.3s;
         }
@@ -128,15 +154,19 @@
             border: 1px solid #3498db;
             outline: none;
         }
+        .modal-content .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
         .modal-content button {
-            padding: 10px 15px;
+            padding: 8px 10px;
             background-color: #3498db;
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 20px;
             cursor: pointer;
-            width: 100%;
-            margin: 5px 0;
+            width: 48%;
+            margin: 2px 0;
         }
         .modal-content button:hover {
             background-color: #2980b9;
@@ -144,6 +174,11 @@
     </style>
 </head>
 <body>
+
+<div class="header">
+    <button onclick="showDeleteIconModal()">删除书签</button>
+    <button onclick="showCreateAppModal()">添加书签</button>
+</div>
 
 <div class="container" id="iconContainer">
     <div class="icon" onclick="window.open('https://bbs.binmt.cc/forum.php?mod=guide&view=newthread&index=1')">
@@ -178,10 +213,6 @@
         <img src="https://avatars.mds.yandex.net/i?id=518c470659e536de8d457a596a9e7827b332bc48fde2316f-5372356-images-thumbs&n=13" alt="应用8">
         <div class="icon-label">GitHub</div>
     </div>
-    <div class="icon" onclick="showCreateAppModal()">
-        <img src="https://img0.baidu.com/it/u=2031121533,3678495383&fm=253&fmt=auto&app=138&f=JPEG?w=260&h=260" alt="添加应用">
-        <div class="icon-label">添加</div>
-    </div>
 </div>
 
 <div class="search-container">
@@ -199,12 +230,25 @@
 
 <div class="modal" id="createAppModal">
     <div class="modal-content">
-        <h3>新建图标</h3>
-        <input type="text" id="appName" placeholder="应用名称" required>
+        <h3>新建书签</h3>
+        <input type="text" id="appName" placeholder="书签名称" required>
         <input type="text" id="appUrl" placeholder="网页链接" required>
         <input type="text" id="appImg" placeholder="图标链接" required>
-        <button onclick="addNewAppIcon()">添加应用</button>
-        <button onclick="closeModal()">关闭</button>
+        <div class="button-container">
+            <button onclick="closeModal()">关闭</button>
+            <button onclick="addNewAppIcon()">添加</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="deleteIconModal">
+    <div class="modal-content">
+        <h3>删除书签</h3>
+        <input type="text" id="deleteAppName" placeholder="输入书签名称以删除" required>
+        <div class="button-container">
+            <button onclick="closeDeleteModal()">关闭</button>
+            <button onclick="deleteAppIcon()">删除</button>
+        </div>
     </div>
 </div>
 
@@ -217,6 +261,14 @@
 
     function closeModal() {
         document.getElementById('createAppModal').style.display = 'none';
+    }
+
+    function showDeleteIconModal() {
+        document.getElementById('deleteIconModal').style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteIconModal').style.display = 'none';
     }
 
     function addNewAppIcon() {
@@ -261,6 +313,28 @@
         newIcon.onclick = () => window.open(icon.url, '_blank');
         newIcon.innerHTML = `<img src="${icon.imgSrc}" alt="${icon.name}"><div class="icon-label">${icon.name}</div>`;
         container.insertBefore(newIcon, container.lastChild);
+    }
+
+    function deleteAppIcon() {
+        const nameToDelete = document.getElementById('deleteAppName').value;
+
+        const icons = getIconsFromLocalStorage();
+        const filteredIcons = icons.filter(icon => icon.name !== nameToDelete);
+
+        if (filteredIcons.length < icons.length) {
+            localStorage.setItem('icons', JSON.stringify(filteredIcons));
+            document.getElementById('deleteAppName').value = '';
+            closeDeleteModal();
+            refreshIcons();
+            alert("图标已删除。");
+        } else {
+            alert("未找到匹配的应用名称。");
+        }
+    }
+
+    function refreshIcons() {
+        document.getElementById('iconContainer').innerHTML = '';
+        renderIcons();
     }
 
     function setSearchEngine(engine) {
