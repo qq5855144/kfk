@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -187,7 +188,7 @@
             position: fixed;
             top: 10px; 
             right: 20px;
-            background-color: transparent; /* 设置为透明 */
+            background-color: transparent; 
             border: none;
             cursor: pointer;
             display: flex;
@@ -248,6 +249,17 @@
         <div class="button-container">
             <button onclick="closeDeleteModal()">关闭</button>
             <button onclick="deleteAppIcon()">删除</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="setBackgroundModal">
+    <div class="modal-content">
+        <h3>添加背景</h3>
+        <input type="text" id="backgroundImg" placeholder="图片网址" required>
+        <div class="button-container">
+            <button onclick="closeSetBackgroundModal()">关闭</button>
+            <button onclick="applyBackground()">添加</button>
         </div>
     </div>
 </div>
@@ -475,7 +487,15 @@
     window.onload = initializeIcons;
 
     function setBackgroundImage() {
-        const imageUrl = prompt("请输入图片网址：");
+        document.getElementById('setBackgroundModal').style.display = 'flex';
+    }
+
+    function closeSetBackgroundModal() {
+        document.getElementById('setBackgroundModal').style.display = 'none';
+    }
+
+    function applyBackground() {
+        const imageUrl = document.getElementById('backgroundImg').value;
         if (imageUrl) {
             document.body.style.backgroundImage = `url(${imageUrl})`;
             document.body.style.backgroundSize = 'cover';
@@ -483,6 +503,7 @@
             document.body.style.backgroundRepeat = 'no-repeat';
             
             localStorage.setItem('backgroundImage', imageUrl);
+            closeSetBackgroundModal(); 
         }
     }
 </script>
