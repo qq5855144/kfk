@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -103,13 +102,12 @@
             transition: border 0.3s, box-shadow 0.3s;
         }
         .search-input-style:focus {
-            border: none; /* 保持无边框 */
-            /* box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); */ /* 移除边框描边效果 */
+            border: none; 
         }
         .search-input-style:disabled {
-            background-color: #f0f0f0; /* 禁用状态的背景色 */
-            color: gray; /* 禁用状态的字体颜色 */
-            cursor: not-allowed; /* 禁用状态的光标样式 */
+            background-color: #f0f0f0; 
+            color: gray; 
+            cursor: not-allowed; 
         }
         .engine-selector {
             display: flex;
@@ -209,6 +207,11 @@
             width: 24px; 
             height: 24px; 
         }
+        .local-upload-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -263,9 +266,17 @@
     <div class="modal-content">
         <h3>添加背景</h3>
         <input type="text" id="backgroundImg" placeholder="图片网址" required>
+        
         <div class="button-container">
             <button onclick="closeSetBackgroundModal()">关闭</button>
             <button onclick="applyBackground()">添加</button>
+        </div>
+        
+        
+        <div class="local-upload-container">
+            <button onclick="document.getElementById('localImageInput').click()">本地相册</button>
+            <input type="file" id="localImageInput" accept="image/*" style="display:none;" onchange="setLocalBackground(event)">
+            <button onclick="clearBackground()">清除背景</button>
         </div>
     </div>
 </div>
@@ -423,7 +434,7 @@
         newIcon.className = 'icon';
         newIcon.onclick = () => window.open(icon.url, '_blank');
         newIcon.innerHTML = `<img src="${icon.imgSrc}" alt="${icon.name}"><div class="icon-label">${icon.name}</div>`;
-        container.appendChild(newIcon);  // 修改此行以将新书签添加到末尾
+        container.appendChild(newIcon); 
     }
 
     function deleteAppIcon() {
@@ -511,6 +522,27 @@
             localStorage.setItem('backgroundImage', imageUrl);
             closeSetBackgroundModal(); 
         }
+    }
+
+    function setLocalBackground(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.body.style.backgroundImage = `url(${e.target.result})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'bottom';
+                document.body.style.backgroundRepeat = 'no-repeat';
+                
+                localStorage.setItem('backgroundImage', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function clearBackground() {
+        document.body.style.backgroundImage = '';
+        localStorage.removeItem('backgroundImage');
     }
 </script>
 
