@@ -91,7 +91,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .search-input {
+        .search-input-style {
             width: 100%;
             height: 26px;
             padding: 10px;
@@ -100,10 +100,16 @@
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
             margin-top: 10px;
             outline: none;
+            transition: border 0.3s, box-shadow 0.3s;
         }
-        .search-input:focus {
-            border: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+        .search-input-style:focus {
+            border: none; /* 保持无边框 */
+            /* box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); */ /* 移除边框描边效果 */
+        }
+        .search-input-style:disabled {
+            background-color: #f0f0f0; /* 禁用状态的背景色 */
+            color: gray; /* 禁用状态的字体颜色 */
+            cursor: not-allowed; /* 禁用状态的光标样式 */
         }
         .engine-selector {
             display: flex;
@@ -226,7 +232,7 @@
         <div class="engine-button" onclick="handleEngineButtonClick('bita', this)">秘塔</div>
         <div class="engine-button" onclick="handleEngineButtonClick('greasyfork', this)">油猴</div> 
     </div>
-    <input type="text" class="search-input" id="search-input" placeholder="搜索..." onkeypress="if(event.key === 'Enter') search()">
+    <input type="text" class="search-input-style" id="search-input" placeholder="搜索..." onkeypress="if(event.key === 'Enter') search()">
 </div>
 
 <div class="modal" id="createAppModal">
@@ -417,7 +423,7 @@
         newIcon.className = 'icon';
         newIcon.onclick = () => window.open(icon.url, '_blank');
         newIcon.innerHTML = `<img src="${icon.imgSrc}" alt="${icon.name}"><div class="icon-label">${icon.name}</div>`;
-        container.insertBefore(newIcon, container.lastChild);
+        container.appendChild(newIcon);  // 修改此行以将新书签添加到末尾
     }
 
     function deleteAppIcon() {
