@@ -55,13 +55,16 @@
             height: 100px;
             border-radius: 18px;
             text-align: center;
-            transition: none; 
-            cursor: default; 
+            transition: transform 0.2s;
+            cursor: pointer;
             color: gray;
         }
+        .icon:hover {
+            transform: scale(1.05);
+        }
         .icon img {
-            width: 46px;
-            height: 46px;
+            width: 60px;
+            height: 60px;
             object-fit: cover;
             border-radius: 15px;
             margin-top: 10px;
@@ -101,6 +104,11 @@
         .search-input-style:focus {
             border: none; 
         }
+        .search-input-style:disabled {
+            background-color: #f0f0f0; 
+            color: gray; 
+            cursor: not-allowed; 
+        }
         .engine-selector {
             display: flex;
             justify-content: center;
@@ -124,7 +132,7 @@
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
         .engine-button.selected {
-            background: linear-gradient(135deg, #ffe000, #799f0c);
+            background: linear-gradient(135deg, #22c1c3, #0575e6);
             transform: scale(1.05);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
@@ -186,7 +194,7 @@
             right: 20px;
             background-color: transparent; 
             border: none;
-            cursor: default; 
+            cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -256,26 +264,24 @@
 
 <div class="modal" id="setBackgroundModal">
     <div class="modal-content">
-        <h3>添加背景</h3>
-        <input type="text" id="backgroundImg" placeholder="图片网址" required>
-        
-        <div class="button-container">
-            <button onclick="closeSetBackgroundModal()">关闭</button>
-            <button onclick="applyBackground()">添加</button>
-        </div>
+        <h3>背景设置</h3>
+        <input type="text" id="backgroundImg" placeholder="输入图片网址按添加按钮" required>
         
         <div class="local-upload-container">
-            <button onclick="document.getElementById('localImageInput').click()">本地相册</button>
+            <button onclick="document.getElementById('localImageInput').click()">相册</button>
             <input type="file" id="localImageInput" accept="image/*" style="display:none;" onchange="setLocalBackground(event)">
-            <button onclick="clearBackground()">清除背景</button>
+            <button onclick="applyBackground()">添加</button>
+            <button onclick="clearBackground()">删除</button>
+            <button onclick="closeSetBackgroundModal()">关闭</button>
         </div>
     </div>
 </div>
 
 <button class="toggle-button" id="toggleButton" onclick="toggleHeader()">
     <span id="toggleIcon" class="toggle-icon green-clover">
+        
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-        width="24" height="24" viewBox="0 0 96 96" preserveAspectRatio="xMidYMid meet" style="pointer-events: none;">
+        width="24" height="24" viewBox="0 0 96 96" preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" style="stop-color:#2ecc71; stop-opacity:1" />
@@ -426,13 +432,7 @@
         const newIcon = document.createElement('div');
         newIcon.className = 'icon';
         newIcon.onclick = () => window.open(icon.url, '_blank');
-        newIcon.innerHTML = `
-            <img src="${icon.imgSrc}" alt="${icon.name}">
-            <svg width="60" height="60" viewBox="0 0 60 60" style="display: none;">
-                <!-- SVG内容 -->
-            </svg>
-            <div class="icon-label">${icon.name}</div>
-        `;
+        newIcon.innerHTML = `<img src="${icon.imgSrc}" alt="${icon.name}"><div class="icon-label">${icon.name}</div>`;
         container.appendChild(newIcon); 
     }
 
