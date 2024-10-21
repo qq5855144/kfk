@@ -466,8 +466,22 @@
         }
     }
 
+    function isValidURL(string) {
+        const res = string.match(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\/[^\s]*)?$/);
+        return (res !== null);
+    }
+
     function search() {
         const query = document.getElementById('search-input').value;
+
+
+        if (isValidURL(query)) {
+            
+            const url = query.startsWith('http://') || query.startsWith('https://') ? query : 'http://' + query;
+            window.open(url, '_self'); 
+            return; 
+        }
+
         const urls = {
             yandex: `https://www.yandex.com/search/touch/?text=${encodeURIComponent(query)}`,
             bing: `https://www.bing.com/search?q=${encodeURIComponent(query)}`,
@@ -477,7 +491,7 @@
             bita: `https://metaso.cn/?q=${encodeURIComponent(query)}`,
             greasyfork: `https://greasyfork.org/zh-CN/scripts?q=${encodeURIComponent(query)}`, 
         };
-        window.open(urls[searchEngine], '_blank');
+        window.open(urls[searchEngine], '_self'); // 使用当前窗口打开搜索结果
     }
 
     function initializeIcons() {
